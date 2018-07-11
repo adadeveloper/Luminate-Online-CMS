@@ -1,0 +1,457 @@
+<div id="div1" style="padding:20px;">
+<h2 style="color:#C41230;">Upcoming Events</h2>
+<p id="noEvtMsg" style="display:none;">There are currently no upcoming event(s).</p>
+<div id="rawresults" style="display:none;"></div>
+<div id="sortedresults"></div>
+</div>
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/luminateExtend/1.7.1/luminateExtend.min.js"></script>
+
+<script type="text/javascript">
+
+var evtContent='';
+var showStatesRaw;
+var showStatesArr = new Array();
+var showStatesArrRefined = new Array();
+var upEvtCount=0;
+var currDate;
+var currMonth;
+var currYear;
+var monthLoc;
+var expectedAPICallNum;
+var callbackNum=0;
+
+
+	
+$(document).ready(function(){
+	
+	luminateExtend({
+		apiKey: 'adap1234',
+		path: {
+				nonsecure: 'http://main.diabetes.org/site/',
+				secure: 'https://donations.diabetes.org/site/'
+		}
+	});
+
+
+//console.log($('#affiliatedStates').text());
+showStatesRaw = $('#affiliatedStates').text();
+	
+showStatesRaw = showStatesRaw.replace(/\s*,\s*/g, ",");
+//console.log(showStatesRaw);
+showStatesArr = showStatesRaw.split(',');
+//console.log(showStatesArr);
+for (var i=0;i<showStatesArr.length; i++){
+	var whatStates = showStatesArr[i].toLowerCase();
+
+	switch(whatStates){
+		case "alabama":
+			showStatesArrRefined[i]="AL";
+			break;
+		case "alaska":
+			showStatesArrRefined[i]="AK";
+			break;
+		case "arizona":
+			showStatesArrRefined[i]="AZ";
+			break;
+		case "arkansas":
+			showStatesArrRefined[i]="AR";
+			break;
+		case "california":
+			showStatesArrRefined[i]="CA";
+			break;
+		case "colorado":
+			showStatesArrRefined[i]="CO";
+			break;
+		case "connecticut":
+			showStatesArrRefined[i]="CT";
+			break;
+		case "district of columbia":
+			showStatesArrRefined[i]="DC";
+			break;
+		case "delaware":
+			showStatesArrRefined[i]="DE";
+			break;		
+		case "florida":
+			showStatesArrRefined[i]="FL";
+			break;
+		case "georgia":
+			showStatesArrRefined[i]="GA";
+			break;
+		case "alabama":
+			showStatesArrRefined[i]="AL";
+			break;
+		case "hawaii":
+			showStatesArrRefined[i]="HI";
+			break;
+		case "idaho":
+			showStatesArrRefined[i]="ID";
+			break;
+		case "illinois":
+			showStatesArrRefined[i]="IL";
+			break;
+		case "indiana":
+			showStatesArrRefined[i]="IN";
+			break;
+		case "iowa":
+			showStatesArrRefined[i]="IA";
+			break;
+		case "kansas":
+			showStatesArrRefined[i]="KS";
+			break;
+		case "kentucky":
+			showStatesArrRefined[i]="KY";
+			break;
+		case "florida":
+			showStatesArrRefined[i]="FL";
+			break;
+		case "louisiana":
+			showStatesArrRefined[i]="LA";
+			break;
+		case "maine":
+			showStatesArrRefined[i]="ME";
+			break;
+		case "maryland":
+			showStatesArrRefined[i]="MD";
+			break;
+		case "massachusetts":
+			showStatesArrRefined[i]="MA";
+			break;
+		case "michigan":
+			showStatesArrRefined[i]="MI";
+			break;
+		case "minnesota":
+			showStatesArrRefined[i]="MN";
+			break;
+		case "mississippi":
+			showStatesArrRefined[i]="MS";
+			break;
+		case "missouri":
+			showStatesArrRefined[i]="MO";
+			break;
+		case "montana":
+			showStatesArrRefined[i]="MT";
+			break;
+		case "nebraska":
+			showStatesArrRefined[i]="NE";
+			break;
+		case "nevada":
+			showStatesArrRefined[i]="NV";
+			break;
+		case "new hampshire":
+			showStatesArrRefined[i]="NH";
+			break;
+		case "new jersey":
+			showStatesArrRefined[i]="NJ";
+			break;
+		case "new mexico":
+			showStatesArrRefined[i]="NM";
+			break;
+		case "new york":
+			showStatesArrRefined[i]="NY";
+			break;
+		case "north carolina":
+			showStatesArrRefined[i]="NC";
+			break;
+		case "north dakota":
+			showStatesArrRefined[i]="ND";
+			break;
+		case "ohio":
+			showStatesArrRefined[i]="OH";
+			break;
+		case "oklahoma":
+			showStatesArrRefined[i]="OK";
+			break;
+		case "oregon":
+			showStatesArrRefined[i]="OR";
+			break;
+		case "pennsylvania":
+			showStatesArrRefined[i]="PA";
+			break;
+		case "rhode island":
+			showStatesArrRefined[i]="RI";
+			break;
+		case "south carolina":
+			showStatesArrRefined[i]="SC";
+			break;
+		case "south dakota":
+			showStatesArrRefined[i]="SD";
+			break;
+		case "tennessee":
+			showStatesArrRefined[i]="TN";
+			break;
+		case "texas":
+			showStatesArrRefined[i]="TX";
+			break;
+		case "utah":
+			showStatesArrRefined[i]="UT";
+			break;
+		case "vermont":
+			showStatesArrRefined[i]="VT";
+			break;
+		case "virginia":
+			showStatesArrRefined[i]="VA";
+			break;
+		case "washington":
+			showStatesArrRefined[i]="WA";
+			break;
+		case "west virginia":
+			showStatesArrRefined[i]="WV";
+			break;
+		case "wisconsin":
+			showStatesArrRefined[i]="WI";
+			break;
+		case "wyoming":
+			showStatesArrRefined[i]="WY";
+			break;		
+	}	
+}
+
+renderEvents();
+	
+}); //end doc ready
+
+function renderEvents(){
+	
+currDate = new Date();
+currMonth = currDate.getMonth()+1;
+monthLoc = currMonth;
+currYear = currDate.getFullYear();
+
+
+expectedAPICallNum = (12 - currMonth)+1;
+	
+//for (var y=currMonth;y<=12;y++){
+for (var y=1;y<=12;y++){
+	luminateExtend.api.request({
+	api: 'OrgEvent',
+	callback: getLocalOfficeEventsCallback,                                                           
+	data: 'method=getMonthEvents&month='+monthLoc+'&year='+currYear+'&response_format=json'
+	});
+	monthLoc++;
+	if(monthLoc===13){
+		monthLoc=1;
+		currYear=currYear+1;
+	}
+}
+
+	
+} //end renderEvent function
+
+window.getLocalOfficeEventsCallback={
+	error:function(data){},
+	success:function(data){
+		if(checkNested(data,'getMonthEventsResponse','event')){
+			var eventList = luminateExtend.utils.ensureArray(data.getMonthEventsResponse.event);
+			//var eventListSort = _.sortBy(eventList,"eventDate.startDate");
+			var eventListSort = eventList;
+			callbackNum=callbackNum+1;
+			
+			
+			//console.log(eventListSort);
+
+			$.each(eventListSort, function() {
+				if (typeof this.eventLocation.stateProv === 'string'){
+					var evtDate = this.eventDate.startDate;
+					//console.log(evtDate);
+					var edCutOffPos = evtDate.indexOf("T");	
+					var trDate=evtDate.split('T')[0];
+					var trMonth=Number(trDate.split('-')[1])-1;
+					var trMonthdgt = trMonth;
+					var trdataMonth;
+					switch (trMonthdgt){
+						case 1:
+							trdataMonth = '01';
+							break;
+						case 2:
+							trdataMonth = '02';
+							break;
+						case 3:
+							trdataMonth = '03';
+							break;
+						case 4:
+							trdataMonth = '04';
+							break;
+						case 5:
+							trdataMonth = '05';
+							break;
+						case 6:
+							trdataMonth = '06';
+							break;
+						case 7:
+							trdataMonth = '07';
+							break;
+						case 8:
+							trdataMonth = '08';
+							break;
+						case 9:
+							trdataMonth = '09';
+							break;
+						case 10:
+							trdataMonth = '10';
+							break;
+						case 11:
+							trdataMonth = '11';
+							break;
+						case 12:
+							trdataMonth = '12';
+							break;
+					}
+					var trDay=trDate.split('-')[2];
+					var trdataDay=trDay;
+					if(trDay<10){
+						trDay=trDay.replace('0','');
+					}
+					var trYear=trDate.split('-')[0];
+					var dtToday = new Date();
+					var evtDateVal = new Date();
+
+					evtDateVal.setFullYear(trYear,trMonthdgt,trDay);	
+
+					if(evtDateVal >= dtToday){
+						var StartDate = new Date(evtDateVal);			
+						var justSDate = StartDate.toDateString();
+						//console.log(StartDate)
+
+						evtContent +='<div class="eventboxes EvtState'+this.eventLocation.stateProv+'" data-datetext="'+trYear+trdataMonth+trdataDay+'"><a class="eventHeaders" href="'+this.eventUrl+'" target="_blank">'+this.name+' - '+this.eventLocation.stateProv+'</a>'; 
+
+						var SDateArr = justSDate.split(' ');
+						evtContent += '<div style="float:left;max-width:80px /*120px*/;text-align:center;vertical-align:top;margin:10px;"><div class="icon"><em>'+SDateArr[0]+'</em><strong>'+SDateArr[1]+'</strong><span>'+SDateArr[2]+'</span></div><span style="font-size:16pt;color:#007788;font-weight:900">'+trYear+'</span></div>';
+						evtContent += '<div style="padding:18px 5px;max-width:500px;min-width:100px;/*width:100%;*/float:left;vertical-align:top;"><span>'+this.eventLocation.location+'</span>';
+						evtContent += '<br /><span>'+this.eventLocation.street1+'</span>';
+						evtContent += '<br /><span>'+this.eventLocation.city+', '+this.eventLocation.stateProv+', '+this.eventLocation.zip+'</span>';
+						//evtContent += '<br /><span>'+justSDate+' to '+justEDate+'</span>';
+						evtContent += '</div><div style="clear:both;height:1px;">&nbsp;</div></div>';
+					}
+				}
+			});
+		} else {
+			callbackNum=callbackNum+1;
+		}
+		
+			//if(callbackNum===expectedAPICallNum){
+		      if(callbackNum===12){
+				//$('#div1').append(evtContent);
+				  $('#rawresults').append(evtContent);
+				  var sortedelem = $('#rawresults').find('div.eventboxes').sort(sortMe);
+				  $('#sortedresults').append(sortedelem);
+
+				for (var z=0;z<showStatesArrRefined.length; z++){
+					$('#sortedresults .EvtState'+showStatesArrRefined[z]).show();
+				}
+
+				//upEvtCount = $('#div1 .eventboxes:visible').length;
+				 upEvtCount = $('#sortedresults .eventboxes:visible').length;
+				//console.log(upEvtCount);
+				//console.log(typeof upEvtCount);
+				if(upEvtCount===0){
+					$('#noEvtMsg').show();
+				} else {
+					$('#noEvtMsg').hide();
+				}
+			}
+		
+		
+	}	
+}
+
+function sortMe(a,b){
+	//return a.className.match(/EvtDate\d/)[0] > b.className.match(/EvtDate\d/)[0]
+	return +a.dataset.datetext - +b.dataset.datetext;
+}
+
+function checkNested(obj) {
+  var args = Array.prototype.slice.call(arguments, 1);
+
+  for (var i = 0; i < args.length; i++) {
+    if (!obj || !obj.hasOwnProperty(args[i])) {
+      return false;
+    }
+    obj = obj[args[i]];
+  }
+  return true;
+}
+
+</script>
+<style>
+.eventboxes{border:1px solid #CCC;margin:10px 0px;display:none;}
+a.eventHeaders{display:block;background-color:#C41230;padding:10px;text-decoration:none;color:#FFF;font-size:14pt;}
+a.eventHeaders:hover, a.eventHeaders:link, a.eventHeaders:visited{text-decoration:none;}
+	
+	
+/*Calendar Icon */
+	
+div.icon
+{
+  font-size: 1em; /* change icon size */
+  display: block;
+  position: relative;
+  /*width: 7em;
+  height: 7em;*/
+width:4.5em;
+height:4.5em;
+  background-color: #fff;
+  margin: /*2em*/0.5em auto;
+  border-radius: 0.6em;
+  box-shadow: 0 1px 0 #bdbdbd, 0 2px 0 #fff, 0 3px 0 #bdbdbd, 0 4px 0 #fff, 0 5px 0 #bdbdbd, 0 0 0 1px #bdbdbd;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: rotate(0deg) skewY(0deg);
+  -webkit-transform-origin: 50% 10%;
+  transform-origin: 50% 10%;
+}
+
+div.icon *
+{
+  display: block;
+  width: 100%;
+  font-size: 1em;
+  font-weight: bold;
+  font-style: normal;
+  text-align: center;
+}
+
+div.icon strong
+{
+  position: absolute;
+  top: 0;
+  /*padding: 0.4em 0;*/
+padding:0;
+  color: #fff;
+  background-color: #fd9f1b;
+  border-bottom: 1px dashed #f37302;
+  box-shadow: 0 2px 0 #fd9f1b;
+}
+
+div.icon em
+{
+  position: absolute;
+  /*bottom: 0.3em;*/
+bottom:0.1em;
+  color: #fd9f1b;
+}
+
+div.icon span
+{
+  width: 100%;
+  /*font-size: 2.8em;*/
+font-size:1.2em;
+  letter-spacing: -0.05em;
+  /*padding-top: 1.1em;*/
+padding-top:1.5em;
+  color: #2f2f2f;
+}
+
+@media screen and (max-width: 374px) {
+.eventboxes span{font-size:10pt;}
+}
+/* Calendar Icon */
+	
+</style>
+
+
+
