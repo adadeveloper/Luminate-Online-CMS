@@ -1,0 +1,340 @@
+<!-- Content Type > Local Office > Display Template > Tier 2 & 3 -->
+<script src="http://www.diabetes.org/assets/js/handlebars.js"></script>
+<script src="http://www.diabetes.org/assets/js/moment-min.js"></script>
+    
+<div id="layout" class="colcount-two coldesc-one-two layout-landingpage layout-office">
+	<!--For API Search-->
+	<span id="local_office_id" style="display: none" class="rs_skip">${local_office_id}</span>
+
+<style>
+#local-events, #response{display:none;}
+</style>
+
+	<t:if test="matches(path, '.*/es/.*')">
+        <t:set id="isSpanish" value="'1'" />
+        <t:set id="rsLang" value="'es-us'" />
+	</t:if>
+	<t:else>
+        <t:set id="isSpanish" value="'0'" />
+        <t:set id="rsLang" value="'en-us'" />
+	</t:else>
+    <t:if test="matches(show_me, '.*glossary.*')">
+        <!--WARNING, I've been copied and pasted from content content type-->
+        <t:include id="item-452495676"></t:include>
+    </t:if>
+    <t:else>
+        <span id="hideglossary" style="display:none"></span>
+    </t:else>
+    <div class="wrapper">
+        <!--Breadcrumb-->
+        <div id="breadcrumbs">
+          <t:include id="breadcrumb-452495805"></t:include>
+        </div>
+        <t:if test="matches(show_me, '.*right_column.*')">
+        	<section id="user-tools" class="rs_skip">
+                <t:if test="matches(show_me, '.*sharing.*')">
+                    <t:if test="isSpanish=='1'">
+                        <t:include id="item-473986761"></t:include>
+                    </t:if>
+                    <t:else>
+                        <t:include id="item-462373710"></t:include>
+                    </t:else>
+                    <span class="print" onClick="window.print(); return false;">Print Page</span>
+                </t:if>
+                <div id="accessibility-tools">
+                    <!-- Test Resizer -->
+                    <t:if test="isSpanish=='1'">
+                        <t:include id="item-473986832"></t:include>
+                    </t:if>
+                    <t:else>
+                        <t:include id="item-464263442"></t:include>
+                    </t:else>
+                    <t:if test="matches(show_me, '.*readspeaker.*')">
+                        <!-- Audio Reader -->
+                        <div id="readspeaker_button1" class="rs_skip rsbtn_colorskin rs_preserve"> <a data-rsevent-id="rs_846739" class="rsbtn_play" accesskey="L" title="Listen to this page using ReadSpeaker" href="http://app.na.readspeaker.com/cgi-bin/rsent?customerid=5484&amp;lang=${rsLang}&amp;readid=layout&amp;url=${url}"><span class="rsbtn_left rspart"><span class="rsbtn_text"><span><t:if test="isSpanish=='1'">Escuchar</t:if><t:else>Listen</t:else></span></span></span><span class="rsbtn_right rsimg rsplay rspart"></span></a></div>
+                    </t:if>
+                    <t:list id="spanish_equivalent">
+                        <t:if test="isSpanish=='1'">
+                            <a href="${url}" id="translate" >In&nbsp;English</a>
+                        </t:if>
+                        <t:else>
+                            <a href="${url}" id="translate" >En&nbsp;Espa&ntilde;ol</a>
+                        </t:else>
+                    </t:list>
+				</div> <!-- end #accessibility-tools -->
+			</section> <!-- end #user-tools -->
+		</t:if>
+        <main id="colone" role="main">
+            <section id="landing-main-content">
+                <h1>${title}</h1>
+                <t:if test="!isNull(featured_content)">
+                    <section id="lp-feature">
+                        <t:if test="featured_image.length > 0">
+                            <img src="${featured_image.url}" alt="${featured_image.title}" />
+                        </t:if>
+                        <t:else>
+                            <t:if test="!isNull(featured_video)">
+                                <iframe width="300" height="200" src="//www.youtube.com/embed/${featured_video}?rel=0&showinfo=0&fs=1&modestbranding=0" frameborder="0" allowfullscreen></iframe>
+                            </t:if>
+                        </t:else>
+                        ${featured_content}
+                        <div class="clear"></div>
+					</section> <!-- end #lp-feature -->
+				</t:if>
+                <section id="local-events">
+                    <t:if test="isSpanish=='1'">
+                        <h2>Need Spanish: Upcoming Events</h2>
+                    </t:if>
+                    <t:else>
+                        <h2>Events</h2>
+                    </t:else>
+                    <t:if test="isNull(event_1)">
+                        <t:include id="item-472925913"></t:include>
+                        <t:if test="matches(path, '.*arizona.*')"><p style="font-size:small; clear:both;"><i>*Times reflect daylight saving time.</i></p></t:if>
+                        <t:if test="!isNull(event_page_url)"><p class="more-category"><a href="${event_page_url}">Additional Events</a></p></t:if>
+                    </t:if>
+          <t:else>
+            <ul>
+              <t:if test="!isNull(event_1)">
+                <li style="width:80%;" class="h-event v-event">
+                <span datetime="20140115T193000-05:00" class="dt-start">
+                <span class="dt-start-day"><t:value id="event_1_date" type="date" format="d"></t:value></span>
+                <span class="dt-start-month"><t:value id="event_1_date" type="date" format="MMM"></t:value></span>
+                <span class="dt-start-hour"><t:if test="!isNull(event_1_time)">${event_1_time}</t:if></span>
+                </span>
+                <h2 class="p-name"><a href="${event_1_url}" class="u-url">${event_1}</a></h2>
+                <span class="p-category eventType_1">
+                <span class="p-location">${event_1_city}, ${event_1_state}</span><br />
+                <t:if test="!isNull(event_1_descrip)">${event_1_descrip}</t:if>
+                </span>
+                </li>                  
+              </t:if>
+              <t:if test="!isNull(event_2)">
+                <li style="width:80%;" class="h-event v-event">
+                <span datetime="20140115T193000-05:00" class="dt-start">
+                <span class="dt-start-day"><t:value id="event_2_date" type="date" format="d"></t:value></span>
+                <span class="dt-start-month"><t:value id="event_2_date" type="date" format="MMM"></t:value></span>
+                <span class="dt-start-hour"><t:if test="!isNull(event_2_time)">${event_2_time}</t:if></span>
+                </span>
+                <h2 class="p-name"><a href="${event_2_url}" class="u-url">${event_2}</a></h2>
+                <span class="p-category eventType_1">
+                <span class="p-location">${event_2_city}, ${event_2_state}</span><br />
+                <t:if test="!isNull(event_2_descrip)">${event_2_descrip}</t:if>
+                </span>
+                </li>                  
+              </t:if>
+              <t:if test="!isNull(event_3)">
+                <li style="width:80%;" class="h-event v-event">
+                <span datetime="20140115T193000-05:00" class="dt-start">
+                <span class="dt-start-day"><t:value id="event_3_date" type="date" format="d"></t:value></span>
+                <span class="dt-start-month"><t:value id="event_3_date" type="date" format="MMM"></t:value></span>
+                <span class="dt-start-hour"><t:if test="!isNull(event_3_time)">${event_3_time}</t:if></span>
+                </span>
+                <h2 class="p-name"><a href="${event_3_url}" class="u-url">${event_3}</a></h2>
+                <span class="p-category eventType_1">
+                <span class="p-location">${event_3_city}, ${event_3_state}</span><br />
+                <t:if test="!isNull(event_3_descrip)">${event_3_descrip}</t:if>
+                </span>
+                </li>                  
+              </t:if>
+              <t:if test="!isNull(event_4)">
+                <li style="width:80%;" class="h-event v-event">
+                <span datetime="20140115T193000-05:00" class="dt-start">
+                <span class="dt-start-day"><t:value id="event_4_date" type="date" format="d"></t:value></span>
+                <span class="dt-start-month"><t:value id="event_4_date" type="date" format="MMM"></t:value></span>
+                <span class="dt-start-hour"><t:if test="!isNull(event_4_time)">${event_4_time}</t:if></span>
+                </span>
+                <h2 class="p-name"><a href="${event_4_url}" class="u-url">${event_4}</a></h2>
+                <span class="p-category eventType_1">
+                <span class="p-location">${event_4_city}, ${event_4_state}</span><br />
+                <t:if test="!isNull(event_4_descrip)">${event_4_descrip}</t:if>
+                </span>
+                </li>                  
+              </t:if>
+              <t:if test="!isNull(event_5)">
+                <li style="width:80%;" class="h-event v-event">
+                <span datetime="20140115T193000-05:00" class="dt-start">
+                <span class="dt-start-day"><t:value id="event_5_date" type="date" format="d"></t:value></span>
+                <span class="dt-start-month"><t:value id="event_5_date" type="date" format="MMM"></t:value></span>
+                <span class="dt-start-hour"><t:if test="!isNull(event_5_time)">${event_5_time}</t:if></span>
+                </span>
+                <h2 class="p-name"><a href="${event_5_url}" class="u-url">${event_5}</a></h2>
+                <span class="p-category eventType_1">
+                <span class="p-location">${event_5_city}, ${event_5_state}</span><br />
+                <t:if test="!isNull(event_5_descrip)">${event_5_descrip}</t:if>
+                </span>
+                </li>                  
+              </t:if>
+              <t:if test="!isNull(event_6)">
+                <li style="width:80%;" class="h-event v-event">
+                <span datetime="20140115T193000-05:00" class="dt-start">
+                <span class="dt-start-day"><t:value id="event_6_date" type="date" format="d"></t:value></span>
+                <span class="dt-start-month"><t:value id="event_6_date" type="date" format="MMM"></t:value></span>
+                <span class="dt-start-hour"><t:if test="!isNull(event_6_time)">${event_6_time}</t:if></span>
+                </span>
+                <h2 class="p-name"><a href="${event_6_url}" class="u-url">${event_6}</a></h2>
+                <span class="p-category eventType_1">
+                <span class="p-location">${event_6_city}, ${event_6_state}</span><br />
+                <t:if test="!isNull(event_6_descrip)">${event_6_descrip}</t:if>
+                </span>
+                </li>                  
+              </t:if>
+            </ul>
+          </t:else>
+
+        </section> <!-- end #local-events -->
+
+
+
+<span id="affiliatedStates" style="display:none;">${states_covered}</span>
+<div id="item-858155572" class="templateComponent" style="display:block;"></div>
+
+
+          <t:if test="!isNull(program_information)">
+            <section id="program-info">
+              <h2>Program Info</h2>
+              ${program_information}
+            </section>
+          </t:if>
+
+
+          <div id="volunteer">
+
+            <t:if test="isSpanish=='1'">
+              <h2>Need Spanish: VOLUNTEER CENTER, including separate include</h2>
+            </t:if>
+            <t:else>
+            <!-- RLG UPDATED VC EMBED 10-3-13 -->
+            <h2>Volunteer With Us</h2>
+              <t:include id="item-466021567"></t:include>
+            </t:else>
+          </div>
+
+        <!-- SPONSORS MOVED BY RLG 10-3-13 -->
+        <t:if test="!isNull(sponsor_logos)">
+          <h2>Sponsors</h2>
+          ${sponsor_logos}
+        </t:if>
+
+      </section> <!-- end #landing-main-content -->
+    </main>
+     <!--SIDEBAR-->
+
+    <t:if test="matches(show_me, '.*right_column.*')">
+      <div id="coltwo">
+        <div class="promo v-card social-buttons" id="contact-us">
+
+          <t:if test="isSpanish=='1'">
+            <h2>Need Spanish: Contact Us</h2>
+          </t:if>
+          <t:else>
+              <h2>Contact Us</h2>
+          </t:else>
+          <!-- refer to: http://microformats.org/wiki/vcard -->
+          <h3 class="fn">${title}</h3>    
+
+          <p class="adr">
+                <span class="street-address"><t:if test="!isNull(address_1)">${address_1}<br /></t:if>
+                <t:if test="!isNull(address_2)">${address_2}</span><br /></t:if>
+                <t:if test="!isNull(city)"><span class="locality">${city}</span>, <span class="region">${state}</span>, <span class="postal-code">${zip}</span></t:if>
+          </p>
+
+          <t:if test="!isNull(email)">
+            <p><strong>Email:</strong>
+            <a class="email" href="mailto:${email}">${email}</a></p>
+          </t:if>
+
+          <t:if test="!isNull(phone_1)">
+            <p class="tel"><strong>Phone:</strong>
+            ${phone_1}-${phone_2}-${phone_3}</p>
+          </t:if>
+
+          <t:if test="!isNull(fax_1)">
+            <p><strong>Fax:</strong>
+            ${fax_1}-${fax_2}-${fax_3}</p>
+          </t:if>
+
+        <t:if test="!isNull(facebook) || !isNull(twitter) || !isNull(pinterest) || !isNull(youtube) || !isNull(flickr) || !isNull(google_plus) || !isNull (blog)">
+          
+          <t:if test="isSpanish=='1'">
+            <h2>Need Spanish: Follow Us</h2>
+          </t:if>
+          <t:else>
+              <h2>Follow Us</h2>
+          </t:else>
+          <ul>
+            <t:if test="!isNull(facebook)"><li class="facebook"><a href="${facebook}">Facebook</a></li></t:if>
+            <t:if test="!isNull(twitter)"><li class="twitter"><a href="${twitter}">Twitter</a></li></t:if>
+            <t:if test="!isNull(youtube)"><li class="youtube"><a href="${youtube}">YouTube</a></li></t:if>
+            <t:if test="!isNull(google_plus)"><li class="google-plus"><a href="${google_plus}">Google Plus</a></li></t:if>
+            <t:if test="!isNull(pinterest)"><li class="pinterest"><a href="${pinterest}">Pinterest</a></li></t:if>
+            <t:if test="!isNull(flickr)"><li class="flickr"><a href="${flickr}">Flickr</a></li></t:if>
+            <t:if test="!isNull(blog)"><li class="blog"><a href="${blog}">Our Blog</a></li></t:if>    
+          </ul>
+      </t:if>
+
+      </div><!--#v-card-->
+
+        <!--end v-card--> 
+
+
+        <t:if test="matches(show_me, '.*section_nav.*')">
+                
+            <!--Section Nav-->
+            <t:if test="isSpanish == '1'">
+                  <div style="display: inline;" class="templateComponent" id="sectionNavigation-475277215"></div>
+
+            </t:if>
+            <t:else>
+                 <t:include id="sectionNavigation-452496983"></t:include>
+            </t:else>
+        </t:if>
+
+
+
+        <t:if test="rcpo.length > 0">
+            <!--Embedded engagement promo-->
+            <!--WARNING, I've been copied and pasted from content content type-->
+            <t:include id="item-472262533"></t:include>
+
+        </t:if>
+
+        <t:else>
+
+
+            <t:include id="item-464277604"></t:include>
+            
+            <t:include id="templatelist-464278827"></t:include>
+         
+          
+           </t:else>
+ 
+
+      </div><!--#coltwo-->
+    </t:if>
+
+
+  </div> <!--.wrapper-->
+        
+    <div id="more-content">
+            <div class="wrapper">
+                    <h3><t:if test="isSpanish == '1'">Más información en diabetes.org</t:if><t:else>More from diabetes.org</t:else></h3>
+                    <div id="more-content-carousel-wrapper" style="height: 179px;">
+                        <t:if test="isSpanish == '1'">
+                            <div style="display: inline;" class="templateComponent" id="templatelist-474201200"></div>
+
+                        </t:if>
+                        <t:else>
+                            <!--More from diabetes-->
+                            <t:include id="templatelist-457233102"></t:include>
+                        </t:else>
+                    </div>
+                    <!-- end #more-content-carousel-wrapper -->
+                    <span id="more-content-next">»</span>
+                    <span id="more-content-prev">«</span>
+            </div>
+            <!-- end .wrapper -->
+    </div>
+  <!-- end more-content -->
+
+</div> <!--End #layout-->
